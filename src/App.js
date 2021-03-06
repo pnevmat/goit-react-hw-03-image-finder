@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import ApiService from './components/Utils/ApiService';
 import SearchBar from './components/SearchBar/SearchBar';
+import Loader from './components/Loader/Loader';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import Button from './components/Button/Button';
 import Modal from './components/Modal/Modal';
 
-import Loader from "react-loader-spinner";
-
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import './App.css';
 
 const apiService = new ApiService();
@@ -88,17 +86,16 @@ class ImageFinder extends Component {
         return (
             <section className="App">
                 <SearchBar onSubmit={this.onSubmit} />
-                <Loader
-                    type="Puff"
-                    color="#00BFFF"
-                    height={100}
-                    width={100}
-                    timeout={3000} //3 secs
-                />
+                {this.state.query !== '' &&
+                    <Loader />
+                }
                 <ImageGallery 
                     images={this.state.images}
                     onToggleModal={this.OpenModalHandler}
                 />
+                {this.state.images.length > 12 &&
+                    <Loader />
+                }
                 {this.state.images.length > 0 &&
                     <Button 
                         onLoadMore={this.onLoadMore}
